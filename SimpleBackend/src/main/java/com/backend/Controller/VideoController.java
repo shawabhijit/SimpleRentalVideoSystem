@@ -1,6 +1,7 @@
 package com.backend.Controller;
 
 import com.backend.DTO.VideoRequest;
+import com.backend.Entity.Enum.AvailabilityStatus;
 import com.backend.Entity.Video;
 import com.backend.Service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,11 @@ public class VideoController {
     @GetMapping("/{id}")
     public ResponseEntity<Video> getVideoById(@PathVariable long id) throws BadRequestException {
         return ResponseEntity.ok().body(videoService.getVideoById(id));
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Video>> getAvailableVideosByStatus() {
+        return ResponseEntity.ok().body(videoService.getAvailableVideos());
     }
 
     @DeleteMapping("/{id}")

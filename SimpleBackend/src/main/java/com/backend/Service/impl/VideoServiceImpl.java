@@ -74,6 +74,11 @@ public class VideoServiceImpl implements VideoService {
         videoRepo.deleteById(videoId);
     }
 
+    @Override
+    public List<Video> getAvailableVideos() {
+        return videoRepo.findByStatus(AvailabilityStatus.AVAILABLE);
+    }
+
     private void AuthenticateUser () throws BadRequestException {
         Authentication authentication = SecurityContextHolder
                 .getContext()

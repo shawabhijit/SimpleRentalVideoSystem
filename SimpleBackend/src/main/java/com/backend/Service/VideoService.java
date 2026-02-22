@@ -12,4 +12,5 @@ public interface VideoService {
     List<Video> getAllVideos();
     Video getVideoById(long id) throws BadRequestException;
     void deleteVideo(long id) throws BadRequestException;
+    List<Video> getAvailableVideos();
 }

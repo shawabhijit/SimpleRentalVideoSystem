@@ -17,9 +17,10 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
-
     private final UserRepo userRepo;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
 
     public AuthResponse register(RegisterRequest request) {
         if (request.getRole() == null) {
@@ -36,17 +37,25 @@ public class AuthService {
 
         userRepo.save(user);
 
-        return AuthResponse.builder()
-                .message("Registration Successfully Done.").build();
+        String jwtToken = jwtService.generateToken(user);
 
+        return AuthResponse.builder()
+                .message("Registration success")
+                .accessToken(jwtToken)
+                .build();
     }
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()));
-        return AuthResponse.builder()
-                .message("Login Success.").build();
-    }
+                        request.getEmail(),
+                        request.getPassword()));
 
+        User user = userRepo.findByEmail(request.getEmail());
+        String jwtToken = jwtService.generateToken(user);
+        return AuthResponse.builder()
+                .message("Login success")
+                .accessToken(jwtToken)
+                .build();
+    }
 }

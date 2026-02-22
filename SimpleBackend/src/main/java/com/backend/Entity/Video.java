@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "videos")
 @Data
@@ -22,4 +24,7 @@ public class Video {
     private String genre;
     @Enumerated(EnumType.STRING)
     private AvailabilityStatus status;
+
+    @OneToMany(mappedBy = "video")
+    private List<Rental> rentals;
 }
